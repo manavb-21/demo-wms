@@ -1,0 +1,34 @@
+demo-wms
+│
+├── frontend/
+│   ├── React + Vite
+│   ├── Components
+│   ├── Pages
+│   ├── Services
+│   ├── Hooks
+│   └── Assets
+│
+├── backend/
+│   ├── Express
+│   ├── Controllers
+│   ├── Routes
+│   ├── Models
+│   ├── Middleware
+│   ├── Config
+│   ├── Services
+│   └── Utils
+│
+├── database/
+│   ├── SQL Scripts
+│   ├── Seed Data
+│   ├── ER Diagram
+│   └── Schema
+│
+├── docs/
+│   ├── Architecture.md
+│   ├── API.md
+│   ├── Screenshots
+│   ├── Report Assets
+│   └── Future Enhancements
+│
+└── README.md
