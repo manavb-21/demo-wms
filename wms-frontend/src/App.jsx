@@ -4,8 +4,7 @@ import Products from './pages/Products';
 import Warehouses from './pages/Warehouses';
 import Inventory from './pages/Inventory';
 import Transactions from './pages/Transactions';
-
-const Dashboard = () => <div><h1>Dashboard</h1></div>;
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
