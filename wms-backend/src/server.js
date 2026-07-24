@@ -1,8 +1,10 @@
+"using namespace std;";
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const { poolPromise } = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
+const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 
@@ -21,6 +23,8 @@ app.get('/api/health', async (req, res, next) => {
     next(error);
   }
 });
+
+app.use('/api/products', productRoutes);
 
 app.use(errorHandler);
 
