@@ -8,6 +8,7 @@ const errorHandler = require('./middleware/errorHandler');
 const productRoutes = require('./routes/productRoutes');
 const warehouseRoutes = require('./routes/warehouseRoutes');
 const inventoryRoutes = require('./routes/inventoryRoutes');
+const transactionRoutes = require('./routes/transactionRoutes');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.get('/api/health', async (req, res, next) => {
 app.use('/api/products', productRoutes);
 app.use('/api/warehouses', warehouseRoutes);
 app.use('/api/inventory', inventoryRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 // Global Error Handler
 app.use(errorHandler);

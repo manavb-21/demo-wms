@@ -1,5 +1,5 @@
 import { Outlet, Link } from 'react-router-dom';
-import { LayoutDashboard, Package, Warehouse, ArrowRightLeft, FileBarChart } from 'lucide-react';
+import { LayoutDashboard, Package, Warehouse, ArrowRightLeft, FileBarChart, Activity } from 'lucide-react';
 
 const MainLayout = () => {
   return (
@@ -20,6 +20,7 @@ const MainLayout = () => {
             <NavItem to="/products" icon={<Package size={20} />} label="Products" />
             <NavItem to="/warehouses" icon={<Warehouse size={20} />} label="Warehouses" />
             <NavItem to="/inventory" icon={<ArrowRightLeft size={20} />} label="Inventory" />
+            <NavItem to="/transactions" icon={<Activity size={20} />} label="Transactions" />
             <NavItem to="/reports" icon={<FileBarChart size={20} />} label="Reports" />
           </ul>
         </nav>

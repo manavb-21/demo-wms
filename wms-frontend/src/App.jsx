@@ -3,6 +3,7 @@ import MainLayout from './components/layout/MainLayout';
 import Products from './pages/Products';
 import Warehouses from './pages/Warehouses';
 import Inventory from './pages/Inventory';
+import Transactions from './pages/Transactions';
 
 const Dashboard = () => <div><h1>Dashboard</h1></div>;
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="warehouses" element={<Warehouses />} />
         <Route path="inventory" element={<Inventory />} />
         <Route path="reports" element={<div><h1>Reports Module</h1></div>} />
+        <Route path="transactions" element={<Transactions />} />
       </Route>
     </Routes>
   );
