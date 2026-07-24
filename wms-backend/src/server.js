@@ -1,16 +1,19 @@
-"using namespace std;";
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const { poolPromise } = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
+
+// Import Route Handlers
 const productRoutes = require('./routes/productRoutes');
+const warehouseRoutes = require('./routes/warehouseRoutes');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+// Health Check Route
 app.get('/api/health', async (req, res, next) => {
   try {
     const pool = await poolPromise;
@@ -24,8 +27,11 @@ app.get('/api/health', async (req, res, next) => {
   }
 });
 
+// API Routes
 app.use('/api/products', productRoutes);
+app.use('/api/warehouses', warehouseRoutes);
 
+// Global Error Handler
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;

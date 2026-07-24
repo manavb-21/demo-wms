@@ -1,10 +1,9 @@
-"using namespace std;";
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
+import Products from './pages/Products';
+import Warehouses from './pages/Warehouses';
 
 const Dashboard = () => <div><h1>Dashboard</h1></div>;
-const Products = () => <div><h1>Products Module</h1></div>;
-const Warehouses = () => <div><h1>Warehouses Module</h1></div>;
 const Inventory = () => <div><h1>Inventory Module</h1></div>;
 
 function App() {
