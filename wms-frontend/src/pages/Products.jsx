@@ -5,6 +5,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingId, setEditingId] = useState(null);
 
   const [formData, setFormData] = useState({
     sku: '',
@@ -33,23 +34,57 @@ const Products = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.value]: e.target.value
+      [e.target.name]: e.target.value
     });
+  };
+
+  const handleEdit = (product) => {
+    setEditingId(product.ProductID);
+    setFormData({
+      sku: product.SKU,
+      name: product.Name,
+      categoryId: product.CategoryID,
+      unitPrice: product.UnitPrice
+    });
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        await api.delete(`/products/${id}`);
+        fetchProducts();
+      } catch (err) {
+        alert('Error deleting product. It might be linked to existing inventory.');
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/products', {
+      const payload = {
         ...formData,
         categoryId: parseInt(formData.categoryId, 10),
         unitPrice: parseFloat(formData.unitPrice)
-      });
+      };
+
+      if (editingId) {
+        await api.put(`/products/${editingId}`, payload);
+        setEditingId(null);
+      } else {
+        await api.post('/products', payload);
+      }
+      
       setFormData({ sku: '', name: '', categoryId: 1, unitPrice: '' });
       fetchProducts();
     } catch (err) {
-      alert('Error creating product. Make sure SKU is unique.');
+      alert('Error saving product. Make sure SKU is unique.');
     }
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setFormData({ sku: '', name: '', categoryId: 1, unitPrice: '' });
   };
 
   return (
@@ -57,7 +92,7 @@ const Products = () => {
       <h1 style={{ marginBottom: '20px' }}>Products Management</h1>
 
       <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--border-color)' }}>
-        <h3>Add New Product</h3>
+        <h3>{editingId ? 'Edit Product' : 'Add New Product'}</h3>
         <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
           <input
             type="text"
@@ -80,14 +115,21 @@ const Products = () => {
           <input
             type="number"
             name="unitPrice"
-            placeholder="Unit Price ($)"
+            placeholder="Unit Price (₹)"
             step="0.01"
             value={formData.unitPrice}
             onChange={handleChange}
             required
             style={inputStyle}
           />
-          <button type="submit" style={buttonStyle}>Add Product</button>
+          <button type="submit" style={buttonStyle}>
+            {editingId ? 'Update Product' : 'Add Product'}
+          </button>
+          {editingId && (
+            <button type="button" onClick={cancelEdit} style={cancelButtonStyle}>
+              Cancel
+            </button>
+          )}
         </form>
       </div>
 
@@ -104,6 +146,7 @@ const Products = () => {
               <th style={thStyle}>Name</th>
               <th style={thStyle}>Category ID</th>
               <th style={thStyle}>Unit Price</th>
+              <th style={thStyle}>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -113,7 +156,11 @@ const Products = () => {
                 <td style={tdStyle}><strong>{p.SKU}</strong></td>
                 <td style={tdStyle}>{p.Name}</td>
                 <td style={tdStyle}>{p.CategoryID}</td>
-                <td style={tdStyle}>${parseFloat(p.UnitPrice).toFixed(2)}</td>
+                <td style={tdStyle}>₹{parseFloat(p.UnitPrice).toFixed(2)}</td>
+                <td style={tdStyle}>
+                  <button onClick={() => handleEdit(p)} style={editButtonStyle}>Edit</button>
+                  <button onClick={() => handleDelete(p.ProductID)} style={deleteButtonStyle}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -139,6 +186,30 @@ const buttonStyle = {
   borderRadius: '4px',
   cursor: 'pointer',
   fontWeight: 'bold'
+};
+
+const cancelButtonStyle = {
+  ...buttonStyle,
+  backgroundColor: '#64748b'
+};
+
+const editButtonStyle = {
+  padding: '4px 8px',
+  backgroundColor: '#f59e0b',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  marginRight: '8px'
+};
+
+const deleteButtonStyle = {
+  padding: '4px 8px',
+  backgroundColor: '#ef4444',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '4px',
+  cursor: 'pointer'
 };
 
 const thStyle = { padding: '12px 15px' };
