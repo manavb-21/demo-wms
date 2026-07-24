@@ -1,14 +1,5 @@
--- =============================================
--- Warehouse Management System (WMS)
--- Seed Data - SQL Server
--- =============================================
-
 USE WMS_DB;
 GO
-
--- =============================================
--- Clear Existing Data
--- =============================================
 
 DELETE FROM InventoryTransactions;
 DELETE FROM Inventory;
@@ -16,18 +7,6 @@ DELETE FROM Products;
 DELETE FROM Categories;
 DELETE FROM Warehouses;
 GO
-
--- Reset Identity Values
-DBCC CHECKIDENT ('InventoryTransactions', RESEED, 0);
-DBCC CHECKIDENT ('Inventory', RESEED, 0);
-DBCC CHECKIDENT ('Products', RESEED, 0);
-DBCC CHECKIDENT ('Categories', RESEED, 0);
-DBCC CHECKIDENT ('Warehouses', RESEED, 0);
-GO
-
--- =============================================
--- Categories
--- =============================================
 
 INSERT INTO Categories
     (Name, Description)
@@ -37,10 +16,6 @@ VALUES
     ('Packaging', 'Packaging materials and shipping supplies');
 GO
 
--- =============================================
--- Warehouses
--- =============================================
-
 INSERT INTO Warehouses
     (Name, Location, Capacity)
 VALUES
@@ -49,10 +24,6 @@ VALUES
     ('South India Distribution Center', 'Bengaluru', 15000),
     ('East India Regional Warehouse', 'Kolkata', 10000);
 GO
-
--- =============================================
--- Products
--- =============================================
 
 INSERT INTO Products
 (
@@ -74,10 +45,6 @@ VALUES
     ('PACK-002', 'Brown Packing Tape', 3, 65.00),
     ('PACK-003', 'Bubble Wrap Roll', 3, 220.00);
 GO
-
--- =============================================
--- Inventory
--- =============================================
 
 INSERT INTO Inventory
 (
@@ -102,10 +69,6 @@ VALUES
     (4,4,700),
     (4,7,1000);
 GO
-
--- =============================================
--- Inventory Transactions
--- =============================================
 
 INSERT INTO InventoryTransactions
 (

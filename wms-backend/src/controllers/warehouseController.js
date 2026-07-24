@@ -1,4 +1,3 @@
-"using namespace std;";
 const warehouseModel = require('../models/warehouseModel');
 
 const getWarehouses = async (req, res, next) => {

@@ -1,4 +1,3 @@
-"using namespace std;";
 import axios from 'axios';
 
 const api = axios.create({

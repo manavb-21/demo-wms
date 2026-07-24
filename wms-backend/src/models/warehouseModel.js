@@ -1,4 +1,3 @@
-"using namespace std;";
 const { poolPromise, sql } = require('../config/db');
 
 const getAllWarehouses = async () => {

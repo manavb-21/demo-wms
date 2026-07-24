@@ -1,4 +1,3 @@
-"using namespace std;";
 import { Outlet, Link } from 'react-router-dom';
 import { LayoutDashboard, Package, Warehouse, ArrowRightLeft, FileBarChart } from 'lucide-react';
 
