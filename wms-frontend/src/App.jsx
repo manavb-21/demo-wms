@@ -5,6 +5,7 @@ import Warehouses from './pages/Warehouses';
 import Inventory from './pages/Inventory';
 import Transactions from './pages/Transactions';
 import Dashboard from './pages/Dashboard';
+import Reports from './pages/Reports';
 
 function App() {
   return (
@@ -14,8 +15,8 @@ function App() {
         <Route path="products" element={<Products />} />
         <Route path="warehouses" element={<Warehouses />} />
         <Route path="inventory" element={<Inventory />} />
-        <Route path="reports" element={<div><h1>Reports Module</h1></div>} />
         <Route path="transactions" element={<Transactions />} />
+        <Route path="reports" element={<Reports />} />
       </Route>
     </Routes>
   );
