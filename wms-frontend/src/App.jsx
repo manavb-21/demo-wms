@@ -2,9 +2,9 @@ import { Routes, Route } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
 import Products from './pages/Products';
 import Warehouses from './pages/Warehouses';
+import Inventory from './pages/Inventory';
 
 const Dashboard = () => <div><h1>Dashboard</h1></div>;
-const Inventory = () => <div><h1>Inventory Module</h1></div>;
 
 function App() {
   return (
