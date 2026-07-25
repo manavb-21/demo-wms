@@ -127,7 +127,7 @@ const Transactions = () => {
           <tbody>
             {transactions.map((t) => (
               <tr key={t.TransactionID} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                <td style={tdStyle}>{new Date(t.TransactionDate).toLocaleString()}</td>
+                <td style={tdStyle}>{new Date(t.TransactionDate).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</td>
                 <td style={tdStyle}>
                   <span style={{ 
                     padding: '4px 8px', 

@@ -6,6 +6,7 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [formData, setFormData] = useState({
     sku: '',
@@ -21,7 +22,7 @@ const Products = () => {
       setProducts(response.data.data);
       setError(null);
     } catch (err) {
-      setError('Failed to load products. Ensure the backend server is running.');
+      setError('Failed to load products.');
     } finally {
       setLoading(false);
     }
@@ -54,7 +55,7 @@ const Products = () => {
         await api.delete(`/products/${id}`);
         fetchProducts();
       } catch (err) {
-        alert('Error deleting product. It might be linked to existing inventory.');
+        alert('Error deleting product.');
       }
     }
   };
@@ -78,7 +79,7 @@ const Products = () => {
       setFormData({ sku: '', name: '', categoryId: 1, unitPrice: '' });
       fetchProducts();
     } catch (err) {
-      alert('Error saving product. Make sure SKU is unique.');
+      alert('Error saving product.');
     }
   };
 
@@ -86,6 +87,13 @@ const Products = () => {
     setEditingId(null);
     setFormData({ sku: '', name: '', categoryId: 1, unitPrice: '' });
   };
+
+  const filteredProducts = products
+    .filter(p => 
+      p.Name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      p.SKU.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => a.SKU.localeCompare(b.SKU));
 
   return (
     <div>
@@ -112,6 +120,16 @@ const Products = () => {
             required
             style={inputStyle}
           />
+          <select
+            name="categoryId"
+            value={formData.categoryId}
+            onChange={handleChange}
+            style={inputStyle}
+          >
+            <option value={1}>1 - Electronics</option>
+            <option value={2}>2 - Office Supplies</option>
+            <option value={3}>3 - Packaging</option>
+          </select>
           <input
             type="number"
             name="unitPrice"
@@ -133,6 +151,14 @@ const Products = () => {
         </form>
       </div>
 
+      <input
+        type="text"
+        placeholder="Search products by SKU or Name..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{ ...inputStyle, marginBottom: '20px', width: '100%', padding: '12px' }}
+      />
+
       {loading ? (
         <p>Loading products...</p>
       ) : error ? (
@@ -150,7 +176,7 @@ const Products = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => (
+            {filteredProducts.map((p) => (
               <tr key={p.ProductID} style={{ borderBottom: '1px solid var(--border-color)' }}>
                 <td style={tdStyle}>{p.ProductID}</td>
                 <td style={tdStyle}><strong>{p.SKU}</strong></td>

@@ -1,3 +1,34 @@
+const { poolPromise, sql } = require('../config/db');
+
+const getAllProducts = async () => {
+  const pool = await poolPromise;
+  const result = await pool.request().query('SELECT * FROM Products');
+  return result.recordset;
+};
+
+const getProductById = async (id) => {
+  const pool = await poolPromise;
+  const result = await pool.request()
+    .input('id', sql.Int, id)
+    .query('SELECT * FROM Products WHERE ProductID = @id');
+  return result.recordset[0];
+};
+
+const createProduct = async (productData) => {
+  const pool = await poolPromise;
+  const result = await pool.request()
+    .input('sku', sql.NVarChar(50), productData.sku)
+    .input('name', sql.NVarChar(150), productData.name)
+    .input('categoryId', sql.Int, productData.categoryId)
+    .input('unitPrice', sql.Decimal(18, 2), productData.unitPrice)
+    .query(`
+      INSERT INTO Products (SKU, Name, CategoryID, UnitPrice)
+      OUTPUT inserted.*
+      VALUES (@sku, @name, @categoryId, @unitPrice)
+    `);
+  return result.recordset[0];
+};
+
 const updateProduct = async (id, productData) => {
   const pool = await poolPromise;
   const result = await pool.request()
@@ -11,7 +42,7 @@ const updateProduct = async (id, productData) => {
       SET SKU = @sku, Name = @name, CategoryID = @categoryId, UnitPrice = @unitPrice, UpdatedAt = GETDATE()
       WHERE ProductID = @id
     `);
-  return result.rowsAffected;
+  return result.rowsAffected[0];
 };
 
 const deleteProduct = async (id) => {
@@ -19,18 +50,8 @@ const deleteProduct = async (id) => {
   const result = await pool.request()
     .input('id', sql.Int, id)
     .query('DELETE FROM Products WHERE ProductID = @id');
-  return result.rowsAffected;
+  return result.rowsAffected[0];
 };
-
-const getProductById = async (id) => {
-  const pool = await poolPromise;
-  const result = await pool.request()
-    .input('id', sql.Int, id)
-    .query('SELECT * FROM Products WHERE ProductID = @id');
-  return result.recordset[0];
-};
-
-// ... your other model functions (create, update, delete, etc.)
 
 module.exports = { 
   getAllProducts, 
