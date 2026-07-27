@@ -91,7 +91,10 @@ const Login = () => {
         </form>
 
         <div style={hintStyle}>
-          <strong>Prototype users:</strong> superadmin/admin123, manager1/admin123, demo/demo123
+          <strong>Demo Account</strong><br />
+          Username: <strong>demo</strong><br />
+          Password: <strong>demo123</strong><br /><br />
+          Administrator credentials are available in the project documentation.
         </div>
       </div>
     </div>
