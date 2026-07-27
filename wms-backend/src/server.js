@@ -5,6 +5,7 @@ const { poolPromise } = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
 // Import Route Handlers
+const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const warehouseRoutes = require('./routes/warehouseRoutes');
 const inventoryRoutes = require('./routes/inventoryRoutes');
@@ -32,6 +33,7 @@ app.get('/api/health', async (req, res, next) => {
 });
 
 // API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/warehouses', warehouseRoutes);
 app.use('/api/inventory', inventoryRoutes);

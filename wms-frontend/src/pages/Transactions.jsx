@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const Transactions = () => {
+  const { isDemoUser, isSuperAdmin } = useAuth();
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -40,6 +42,9 @@ const Transactions = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isSuperAdmin) return;
+
     try {
       await api.post('/transactions', {
         ...formData,
@@ -57,56 +62,63 @@ const Transactions = () => {
 
   return (
     <div>
-      <h1 style={{ marginBottom: '20px' }}>Stock Movements</h1>
-
-      <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--border-color)' }}>
-        <h3>Log New Transaction</h3>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
-          <input
-            type="number"
-            name="productId"
-            placeholder="Product ID"
-            value={formData.productId}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
-          <input
-            type="number"
-            name="warehouseId"
-            placeholder="Warehouse ID"
-            value={formData.warehouseId}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
-          <select name="type" value={formData.type} onChange={handleChange} style={inputStyle}>
-            <option value="IN">IN (Receive Stock)</option>
-            <option value="OUT">OUT (Ship Stock)</option>
-            <option value="ADJUSTMENT">ADJUSTMENT (Audit)</option>
-          </select>
-          <input
-            type="number"
-            name="quantity"
-            placeholder="Quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-            required
-            min="1"
-            style={inputStyle}
-          />
-          <input
-            type="text"
-            name="reference"
-            placeholder="Reference (e.g., PO-1023)"
-            value={formData.reference}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
-          <button type="submit" style={buttonStyle}>Submit</button>
-        </form>
+      <div style={pageTitleStyle}>
+        <h1 style={{ margin: 0 }}>Stock Movements</h1>
+        {isDemoUser && <span style={readOnlyBadgeStyle}>Read Only</span>}
       </div>
+
+      {isSuperAdmin ? (
+        <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--border-color)' }}>
+          <h3>Log New Transaction</h3>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
+            <input
+              type="number"
+              name="productId"
+              placeholder="Product ID"
+              value={formData.productId}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+            <input
+              type="number"
+              name="warehouseId"
+              placeholder="Warehouse ID"
+              value={formData.warehouseId}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+            <select name="type" value={formData.type} onChange={handleChange} style={inputStyle}>
+              <option value="IN">IN (Receive Stock)</option>
+              <option value="OUT">OUT (Ship Stock)</option>
+              <option value="ADJUSTMENT">ADJUSTMENT (Audit)</option>
+            </select>
+            <input
+              type="number"
+              name="quantity"
+              placeholder="Quantity"
+              value={formData.quantity}
+              onChange={handleChange}
+              required
+              min="1"
+              style={inputStyle}
+            />
+            <input
+              type="text"
+              name="reference"
+              placeholder="Reference (e.g., PO-1023)"
+              value={formData.reference}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+            <button type="submit" style={buttonStyle}>Submit</button>
+          </form>
+        </div>
+      ) : (
+        <div style={readOnlyPanelStyle}>Inventory transaction processing is disabled for this account.</div>
+      )}
 
       {loading ? (
         <p>Loading transaction history...</p>
@@ -172,5 +184,31 @@ const buttonStyle = {
 
 const thStyle = { padding: '12px 15px' };
 const tdStyle = { padding: '12px 15px' };
+
+const pageTitleStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  marginBottom: '20px'
+};
+
+const readOnlyBadgeStyle = {
+  padding: '4px 8px',
+  background: '#fef3c7',
+  color: '#92400e',
+  borderRadius: '4px',
+  fontSize: '0.75rem',
+  fontWeight: 'bold'
+};
+
+const readOnlyPanelStyle = {
+  background: '#fff',
+  padding: '14px 16px',
+  borderRadius: '8px',
+  marginBottom: '20px',
+  border: '1px solid var(--border-color)',
+  color: 'var(--text-secondary)',
+  fontWeight: 'bold'
+};
 
 export default Transactions;

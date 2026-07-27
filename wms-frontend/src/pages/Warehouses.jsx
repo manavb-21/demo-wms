@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const Warehouses = () => {
+  const { isDemoUser, isSuperAdmin } = useAuth();
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,6 +37,9 @@ const Warehouses = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isSuperAdmin) return;
+
     try {
       await api.post('/warehouses', {
         ...formData,
@@ -49,41 +54,48 @@ const Warehouses = () => {
 
   return (
     <div>
-      <h1 style={{ marginBottom: '20px' }}>Warehouse Locations</h1>
-
-      <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--border-color)' }}>
-        <h3>Add New Warehouse</h3>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Warehouse Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
-          <input
-            type="text"
-            name="location"
-            placeholder="Location (City, State)"
-            value={formData.location}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
-          <input
-            type="number"
-            name="capacity"
-            placeholder="Max Capacity"
-            value={formData.capacity}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
-          <button type="submit" style={buttonStyle}>Add Warehouse</button>
-        </form>
+      <div style={pageTitleStyle}>
+        <h1 style={{ margin: 0 }}>Warehouse Locations</h1>
+        {isDemoUser && <span style={readOnlyBadgeStyle}>Read Only</span>}
       </div>
+
+      {isSuperAdmin ? (
+        <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--border-color)' }}>
+          <h3>Add New Warehouse</h3>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Warehouse Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+            <input
+              type="text"
+              name="location"
+              placeholder="Location (City, State)"
+              value={formData.location}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+            <input
+              type="number"
+              name="capacity"
+              placeholder="Max Capacity"
+              value={formData.capacity}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+            <button type="submit" style={buttonStyle}>Add Warehouse</button>
+          </form>
+        </div>
+      ) : (
+        <div style={readOnlyPanelStyle}>Warehouse creation is disabled for this account.</div>
+      )}
 
       {loading ? (
         <p>Loading warehouses...</p>
@@ -119,5 +131,31 @@ const inputStyle = { padding: '8px 12px', borderRadius: '4px', border: '1px soli
 const buttonStyle = { padding: '8px 16px', backgroundColor: 'var(--secondary-color)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' };
 const thStyle = { padding: '12px 15px' };
 const tdStyle = { padding: '12px 15px' };
+
+const pageTitleStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  marginBottom: '20px'
+};
+
+const readOnlyBadgeStyle = {
+  padding: '4px 8px',
+  background: '#fef3c7',
+  color: '#92400e',
+  borderRadius: '4px',
+  fontSize: '0.75rem',
+  fontWeight: 'bold'
+};
+
+const readOnlyPanelStyle = {
+  background: '#fff',
+  padding: '14px 16px',
+  borderRadius: '8px',
+  marginBottom: '20px',
+  border: '1px solid var(--border-color)',
+  color: 'var(--text-secondary)',
+  fontWeight: 'bold'
+};
 
 export default Warehouses;

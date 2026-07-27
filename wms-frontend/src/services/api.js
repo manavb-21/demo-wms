@@ -9,6 +9,20 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    const storedAuth = localStorage.getItem('wmsAuth');
+
+    if (storedAuth) {
+      try {
+        const { token } = JSON.parse(storedAuth);
+
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+      } catch (error) {
+        localStorage.removeItem('wmsAuth');
+      }
+    }
+
     return config;
   },
   (error) => {
@@ -21,6 +35,14 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('wmsAuth');
+
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+
     return Promise.reject(error);
   }
 );

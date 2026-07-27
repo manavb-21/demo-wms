@@ -1,7 +1,16 @@
-import { Outlet, Link } from 'react-router-dom';
-import { LayoutDashboard, Package, Warehouse, ArrowRightLeft, FileBarChart, Activity } from 'lucide-react';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Package, Warehouse, ArrowRightLeft, FileBarChart, Activity, LogOut } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 const MainLayout = () => {
+  const { user, isDemoUser, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
+
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <aside style={{ 
@@ -37,7 +46,16 @@ const MainLayout = () => {
           justifyContent: 'space-between'
         }}>
           <h2 style={{ fontSize: '1.1rem', margin: 0 }}>System Overview</h2>
-          <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Admin User</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {isDemoUser && <span style={readOnlyBadgeStyle}>Read Only</span>}
+            <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+              {user?.displayName || user?.username}
+            </div>
+            <button onClick={handleLogout} type="button" style={logoutButtonStyle} title="Logout">
+              <LogOut size={16} />
+              Logout
+            </button>
+          </div>
         </header>
 
         <main style={{ padding: '20px', overflowY: 'auto', flex: 1 }}>
@@ -66,5 +84,27 @@ const NavItem = ({ to, icon, label }) => (
     </Link>
   </li>
 );
+
+const readOnlyBadgeStyle = {
+  padding: '4px 8px',
+  background: '#fef3c7',
+  color: '#92400e',
+  borderRadius: '4px',
+  fontSize: '0.75rem',
+  fontWeight: 'bold'
+};
+
+const logoutButtonStyle = {
+  padding: '7px 10px',
+  backgroundColor: '#f8fafc',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--border-color)',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  fontWeight: 'bold'
+};
 
 export default MainLayout;
