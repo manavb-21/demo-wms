@@ -204,3 +204,21 @@ ON InventoryTransactions (TransactionDate);
 CREATE INDEX IX_InventoryTransactions_Product
 ON InventoryTransactions (ProductID);
 GO
+
+
+USE WMS_DB;
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Users')
+BEGIN
+    CREATE TABLE Users (
+        UserID INT IDENTITY(1,1) PRIMARY KEY,
+        Username NVARCHAR(50) UNIQUE NOT NULL,
+        Password NVARCHAR(255) NOT NULL, 
+        Role NVARCHAR(20) NOT NULL DEFAULT 'ADMIN',
+        DisplayName NVARCHAR(100) NOT NULL,
+        IsActive BIT DEFAULT 1,
+        CreatedAt DATETIME DEFAULT GETUTCDATE()
+    );
+END
+GO

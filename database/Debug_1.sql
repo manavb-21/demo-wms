@@ -25,3 +25,12 @@ GO
 
 DROP DATABASE WMS_DB;
 GO
+
+USE WMS_DB;
+
+UPDATE InventoryTransactions
+SET TransactionDate = DATEADD(MINUTE, -330, TransactionDate)
+WHERE Reference = 'PO-HYD-2026-001';
+
+USE WMS_DB;
+ALTER TABLE dbo.InventoryTransactions DROP CONSTRAINT CK__Inventory__Quant__5441852A;

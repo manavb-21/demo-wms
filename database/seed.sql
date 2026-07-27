@@ -95,3 +95,17 @@ VALUES
     (4,4,'IN',700,'PO-KOL-1002'),
     (7,4,'IN',1000,'PO-KOL-1003');
 GO
+
+USE WMS_DB;
+GO
+
+-- Seed existing manager accounts into the database for User Management
+IF NOT EXISTS (SELECT * FROM Users WHERE Username = 'manager1')
+BEGIN
+    INSERT INTO Users (Username, Password, Role, DisplayName, IsActive)
+    VALUES 
+    ('manager1', 'admin123', 'ADMIN', 'Manager 1', 1),
+    ('manager2', 'admin123', 'ADMIN', 'Manager 2', 1),
+    ('manager3', 'admin123', 'ADMIN', 'Manager 3', 1);
+END
+GO
