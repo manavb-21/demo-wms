@@ -3,7 +3,7 @@ import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const Products = () => {
-  const { isDemoUser, isSuperAdmin } = useAuth();
+  const { isDemoUser, canEdit } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,7 +42,7 @@ const Products = () => {
   };
 
   const handleEdit = (product) => {
-    if (!isSuperAdmin) return;
+    if (!canEdit) return;
 
     setEditingId(product.ProductID);
     setFormData({
@@ -54,7 +54,7 @@ const Products = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!isSuperAdmin) return;
+    if (!canEdit) return;
 
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
@@ -69,7 +69,7 @@ const Products = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isSuperAdmin) return;
+    if (!canEdit) return;
 
     try {
       const payload = {
@@ -111,7 +111,7 @@ const Products = () => {
         {isDemoUser && <span style={readOnlyBadgeStyle}>Read Only</span>}
       </div>
 
-      {isSuperAdmin ? (
+      {canEdit ? (
         <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--border-color)' }}>
           <h3>{editingId ? 'Edit Product' : 'Add New Product'}</h3>
           <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
@@ -188,7 +188,7 @@ const Products = () => {
               <th style={thStyle}>Name</th>
               <th style={thStyle}>Category ID</th>
               <th style={thStyle}>Unit Price</th>
-              {isSuperAdmin && <th style={thStyle}>Actions</th>}
+              {canEdit && <th style={thStyle}>Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -199,7 +199,7 @@ const Products = () => {
                 <td style={tdStyle}>{p.Name}</td>
                 <td style={tdStyle}>{p.CategoryID}</td>
                 <td style={tdStyle}>INR {parseFloat(p.UnitPrice).toFixed(2)}</td>
-                {isSuperAdmin && (
+                {canEdit && (
                   <td style={tdStyle}>
                     <button onClick={() => handleEdit(p)} style={editButtonStyle}>Edit</button>
                     <button onClick={() => handleDelete(p.ProductID)} style={deleteButtonStyle}>Delete</button>

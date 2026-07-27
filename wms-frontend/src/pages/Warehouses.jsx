@@ -3,7 +3,7 @@ import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const Warehouses = () => {
-  const { isDemoUser, isSuperAdmin } = useAuth();
+  const { isDemoUser, canEdit } = useAuth();
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,7 +38,7 @@ const Warehouses = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isSuperAdmin) return;
+    if (!canEdit) return;
 
     try {
       await api.post('/warehouses', {
@@ -59,7 +59,7 @@ const Warehouses = () => {
         {isDemoUser && <span style={readOnlyBadgeStyle}>Read Only</span>}
       </div>
 
-      {isSuperAdmin ? (
+      {canEdit ? (
         <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--border-color)' }}>
           <h3>Add New Warehouse</h3>
           <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>

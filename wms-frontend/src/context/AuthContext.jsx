@@ -35,7 +35,9 @@ export const AuthProvider = ({ children }) => {
     user: auth?.user || null,
     isAuthenticated: Boolean(auth?.token),
     isSuperAdmin: auth?.user?.role === 'SUPER_ADMIN',
+    isAdmin: auth?.user?.role === 'ADMIN',
     isDemoUser: auth?.user?.role === 'DEMO_USER',
+    canEdit: auth?.user?.role === 'SUPER_ADMIN' || auth?.user?.role === 'ADMIN',
     login,
     logout
   }), [auth]);

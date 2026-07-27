@@ -9,6 +9,7 @@ import Transactions from './pages/Transactions';
 import Dashboard from './pages/Dashboard';
 import Reports from './pages/Reports';
 import Login from './pages/Login';
+import UserManagement from './pages/UserManagement';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="inventory" element={<Inventory />} />
             <Route path="transactions" element={<Transactions />} />
             <Route path="reports" element={<Reports />} />
+            <Route path="users" element={<UserManagement />} />
           </Route>
         </Route>
       </Routes>

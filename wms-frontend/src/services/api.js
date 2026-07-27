@@ -47,4 +47,12 @@ api.interceptors.response.use(
   }
 );
 
+export const userApi = {
+  getUsers: () => api.get('/users'),
+  createUser: (userData) => api.post('/users', userData),
+  updateUserRole: (userId, role) => api.patch(`/users/${userId}/role`, { role }),
+  toggleUserStatus: (userId, isActive) => api.patch(`/users/${userId}/status`, { isActive }),
+  deleteUser: (userId) => api.delete(`/users/${userId}`)
+};
+
 export default api;

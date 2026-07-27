@@ -3,7 +3,7 @@ import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const Transactions = () => {
-  const { isDemoUser, isSuperAdmin } = useAuth();
+  const { isDemoUser, canEdit } = useAuth();
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -43,7 +43,7 @@ const Transactions = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isSuperAdmin) return;
+    if (!canEdit) return;
 
     try {
       await api.post('/transactions', {
@@ -67,7 +67,7 @@ const Transactions = () => {
         {isDemoUser && <span style={readOnlyBadgeStyle}>Read Only</span>}
       </div>
 
-      {isSuperAdmin ? (
+      {canEdit ? (
         <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--border-color)' }}>
           <h3>Log New Transaction</h3>
           <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>

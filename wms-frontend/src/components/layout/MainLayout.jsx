@@ -1,9 +1,9 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, Warehouse, ArrowRightLeft, FileBarChart, Activity, LogOut } from 'lucide-react';
+import { LayoutDashboard, Package, Warehouse, ArrowRightLeft, FileBarChart, Activity, LogOut, Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const MainLayout = () => {
-  const { user, isDemoUser, logout } = useAuth();
+  const { user, isDemoUser, isSuperAdmin, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -31,6 +31,7 @@ const MainLayout = () => {
             <NavItem to="/inventory" icon={<ArrowRightLeft size={20} />} label="Inventory" />
             <NavItem to="/transactions" icon={<Activity size={20} />} label="Transactions" />
             <NavItem to="/reports" icon={<FileBarChart size={20} />} label="Reports" />
+            {isSuperAdmin && <NavItem to="/users" icon={<Users size={20} />} label="Users" />}
           </ul>
         </nav>
       </aside>
