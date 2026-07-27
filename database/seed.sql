@@ -1,6 +1,3 @@
-USE WMS_DB;
-GO
-
 DELETE FROM InventoryTransactions;
 DELETE FROM Inventory;
 DELETE FROM Products;
@@ -94,9 +91,6 @@ VALUES
     (1,4,'IN',180,'PO-KOL-1001'),
     (4,4,'IN',700,'PO-KOL-1002'),
     (7,4,'IN',1000,'PO-KOL-1003');
-GO
-
-USE WMS_DB;
 GO
 
 -- Seed existing manager accounts into the database for User Management

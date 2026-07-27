@@ -1,17 +1,7 @@
 -- =============================================
 -- Warehouse Management System (WMS)
--- Database Schema - SQL Server
+-- Database Schema - Azure SQL
 -- =============================================
-
--- Create Database
-IF DB_ID('WMS_DB') IS NULL
-BEGIN
-    CREATE DATABASE WMS_DB;
-END
-GO
-
-USE WMS_DB;
-GO
 
 -- =============================================
 -- Drop Existing Tables (Safe Re-run)
@@ -31,8 +21,10 @@ IF OBJECT_ID('Categories', 'U') IS NOT NULL
 
 IF OBJECT_ID('Warehouses', 'U') IS NOT NULL
     DROP TABLE Warehouses;
-GO
 
+IF OBJECT_ID('Users', 'U') IS NOT NULL
+    DROP TABLE Users;
+GO
 -- =============================================
 -- Warehouses
 -- =============================================
@@ -205,9 +197,6 @@ CREATE INDEX IX_InventoryTransactions_Product
 ON InventoryTransactions (ProductID);
 GO
 
-
-USE WMS_DB;
-GO
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Users')
 BEGIN
