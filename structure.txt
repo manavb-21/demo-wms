@@ -1,0 +1,96 @@
+﻿demo-wms/
+|
+|-- database/
+|   |-- Debug_1.sql
+|   |-- queries.sql
+|   |-- schema.sql
+|   `-- seed.sql
+|
+|-- images/
+|   |-- dashboard.png
+|   |-- inventory.png
+|   |-- prod_mgmt.png
+|   |-- reports.png
+|   |-- transaction.png
+|   |-- user_mgmt.png
+|   `-- warehouse.png
+|
+|-- wms-backend/
+|   |-- src/
+|   |   |-- config/
+|   |   |   `-- db.js
+|   |   |-- controllers/
+|   |   |   |-- authController.js
+|   |   |   |-- dashboardController.js
+|   |   |   |-- inventoryController.js
+|   |   |   |-- productController.js
+|   |   |   |-- reportController.js
+|   |   |   |-- transactionController.js
+|   |   |   |-- userController.js
+|   |   |   `-- warehouseController.js
+|   |   |-- middleware/
+|   |   |   |-- authMiddleware.js
+|   |   |   `-- errorHandler.js
+|   |   |-- models/
+|   |   |   |-- dashboardModel.js
+|   |   |   |-- inventoryModel.js
+|   |   |   |-- productModel.js
+|   |   |   |-- reportModel.js
+|   |   |   |-- transactionModel.js
+|   |   |   |-- userModel.js
+|   |   |   `-- warehouseModel.js
+|   |   |-- routes/
+|   |   |   |-- authRoutes.js
+|   |   |   |-- dashboardRoutes.js
+|   |   |   |-- inventoryRoutes.js
+|   |   |   |-- productRoutes.js
+|   |   |   |-- reportRoutes.js
+|   |   |   |-- transactionRoutes.js
+|   |   |   |-- userRoutes.js
+|   |   |   `-- warehouseRoutes.js
+|   |   |-- services/
+|   |   |-- utils/
+|   |   `-- server.js
+|   |-- .env
+|   |-- .gitignore
+|   |-- package-lock.json
+|   `-- package.json
+|
+|-- wms-frontend/
+|   |-- src/
+|   |   |-- assets/
+|   |   |-- components/
+|   |   |   |-- common/
+|   |   |   |   `-- ProtectedRoute.jsx
+|   |   |   `-- layout/
+|   |   |       `-- MainLayout.jsx
+|   |   |-- context/
+|   |   |   `-- AuthContext.jsx
+|   |   |-- hooks/
+|   |   |-- pages/
+|   |   |   |-- Dashboard.jsx
+|   |   |   |-- Inventory.jsx
+|   |   |   |-- Login.jsx
+|   |   |   |-- Products.jsx
+|   |   |   |-- Reports.jsx
+|   |   |   |-- Transactions.jsx
+|   |   |   |-- UserManagement.jsx
+|   |   |   `-- Warehouses.jsx
+|   |   |-- services/
+|   |   |   `-- api.js
+|   |   |-- utils/
+|   |   |-- App.jsx
+|   |   |-- index.css
+|   |   `-- main.jsx
+|   |-- .env
+|   |-- .gitignore
+|   |-- index.html
+|   |-- package-lock.json
+|   |-- package.json
+|   |-- vercel.json
+|   `-- vite.config.js
+|
+|-- original_structure.txt
+|-- Project_Roadmap.md
+|-- README.md
+`-- structure.txt
