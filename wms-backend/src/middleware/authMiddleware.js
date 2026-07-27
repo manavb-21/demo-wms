@@ -9,7 +9,10 @@ const verifyToken = (req, res, next) => {
   }
 
   try {
-    req.user = jwt.verify(token, process.env.JWT_SECRET || 'wms-demo-jwt-secret-change-me');
+    req.user = jwt.verify(
+    token,
+    process.env.JWT_SECRET
+);
     next();
   } catch (error) {
     return res.status(401).json({ success: false, message: 'Invalid or expired authentication token' });

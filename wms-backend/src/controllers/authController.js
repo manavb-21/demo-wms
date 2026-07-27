@@ -66,9 +66,9 @@ const login = async (req, res, next) => {
     }
 
     const authUser = buildAuthUser(user);
-    const token = jwt.sign(authUser, process.env.JWT_SECRET || 'wms-demo-jwt-secret-change-me', {
-      expiresIn: process.env.JWT_EXPIRES_IN || '8h'
-    });
+   const token = jwt.sign(authUser, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || '8h'
+  });
 
     res.json({
       success: true,

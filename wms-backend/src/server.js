@@ -1,6 +1,19 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const requiredEnvVars = [
+    "DB_SERVER",
+    "DB_USER",
+    "DB_PASSWORD",
+    "DB_NAME",
+    "JWT_SECRET"
+];
+
+requiredEnvVars.forEach((envVar) => {
+    if (!process.env[envVar]) {
+        throw new Error(`Missing required environment variable: ${envVar}`);
+    }
+});
 const { poolPromise } = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -16,7 +29,24 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+    "http://localhost:5173",
+    process.env.FRONTEND_URL
+];
+
+app.use(
+    cors({
+        origin: function (origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("CORS not allowed"));
+            }
+        },
+        credentials: true
+    })
+);
+
 app.use(express.json());
 
 // Health Check Route
