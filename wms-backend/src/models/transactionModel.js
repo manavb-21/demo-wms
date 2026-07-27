@@ -16,8 +16,8 @@ const createTransaction = async (transactionData) => {
       .input('quantity', sql.Int, transactionData.quantity)
       .input('reference', sql.NVarChar(100), transactionData.reference)
       .query(`
-        INSERT INTO InventoryTransactions (ProductID, WarehouseID, TransactionType, Quantity, Reference)
-        VALUES (@productId, @warehouseId, @type, @quantity, @reference)
+        INSERT INTO InventoryTransactions (ProductID, WarehouseID, TransactionType, Quantity, Reference, TransactionDate)
+        VALUES (@productId, @warehouseId, @type, @quantity, @reference, GETUTCDATE())
       `);
 
     // 2. Determine quantity modifier (+ for IN, - for OUT)

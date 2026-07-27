@@ -94,6 +94,13 @@ const Transactions = () => {
               <option value="OUT">OUT (Ship Stock)</option>
               <option value="ADJUSTMENT">ADJUSTMENT (Audit)</option>
             </select>
+            
+            {formData.type === 'ADJUSTMENT' && (
+              <div style={{ flexBasis: '100%', fontSize: '13px', color: '#64748b', margin: '4px 0 8px 4px' }}>
+                Note: You can enter both positive and negative values to correct the stock during an audit.
+              </div>
+            )}
+
             <input
               type="number"
               name="quantity"
@@ -101,7 +108,7 @@ const Transactions = () => {
               value={formData.quantity}
               onChange={handleChange}
               required
-              min="1"
+              min={formData.type === 'ADJUSTMENT' ? undefined : "1"}
               style={inputStyle}
             />
             <input
@@ -139,7 +146,7 @@ const Transactions = () => {
           <tbody>
             {transactions.map((t) => (
               <tr key={t.TransactionID} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                <td style={tdStyle}>{new Date(t.TransactionDate).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</td>
+                <td style={tdStyle}>{new Date(t.TransactionDate).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'medium' })}</td>
                 <td style={tdStyle}>
                   <span style={{ 
                     padding: '4px 8px', 
